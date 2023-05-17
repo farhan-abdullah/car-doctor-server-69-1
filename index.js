@@ -37,6 +37,7 @@ async function run() {
 			const result = await cursor.toArray();
 			res.send(result);
 		});
+		// specific data
 		app.get('/checkout/:id', async (req, res) => {
 			const id = req.params.id;
 			const query = { _id: new ObjectId(id) };
@@ -51,6 +52,16 @@ async function run() {
 		app.post('/bookings', async (req, res) => {
 			const booking = req.body;
 			const result = await bookingCollection.insertOne(booking);
+			res.send(result);
+		});
+
+		// some data
+		app.get('/bookings', async (req, res) => {
+			const query = {};
+			if (req.query?.email) {
+				query = { email: req.query.email };
+			}
+			const result = await bookingCollection.find().toArray();
 			res.send(result);
 		});
 		// Send a ping to confirm a successful connection
